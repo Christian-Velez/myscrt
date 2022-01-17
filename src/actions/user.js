@@ -5,27 +5,24 @@ import types from 'types/types';
 const API_URL = process.env.REACT_APP_API_URL;
 
 
-export const startGettingUserInfo = async(id, dispatch, setIsLoading, navigate) => {
+export const startGettingUserInfo = async (id) => {
    try {
       const { data } = await axios.get(`${API_URL}/api/user/${id}`);
-      const { user } = data;
+      const { user, posts } = data;
 
 
-      if(!user) {
-         return navigate('/');
-      }
 
-
-      const newPosts = user.posts.map(post => sortComments({ ...post }));
+      const formatedPosts = posts.map(post => sortComments({ ...post }));
       const userToStore = {
          ...user,
-         posts: newPosts
+         posts: formatedPosts
       };
+
+      return userToStore;
+
       
-      dispatch(setCurrentUserInfo(userToStore));
-      setIsLoading(false);
    } catch(err) {
-      navigate('/');
+      throw new Error(err.message);
    }
 };
 

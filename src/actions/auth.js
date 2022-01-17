@@ -15,27 +15,19 @@ export const startRegisterUser = async ({
 
       const { savedUser, token } = data;
 
-      dispatch(
-         setUserInfo({
-            ...savedUser,
-            token,
-         })
-      );
-
-      const userForLocalStorage = {
+      const user = {
          id: savedUser.id,
          token,
-         isAuthenticated: true,
+         isAuthenticated: true
       };
 
-      localStorage.setItem(
-         'userAuth',
-         JSON.stringify(userForLocalStorage)
-      );
+      // Guardo la cuenta en la sesion y en el localStorage
+      dispatch(setUserInfo(user));
+      localStorage.setItem('userAuth', JSON.stringify(user));
+
 
       setIsLoading(false);
       navigate(`./${savedUser.id}`);
-
    } catch (err) {
       return err;
    }

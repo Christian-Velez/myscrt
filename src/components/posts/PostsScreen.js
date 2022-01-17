@@ -2,6 +2,7 @@ import {
    Heading,
    VStack,
 } from '@chakra-ui/react';
+import { setUserInfo } from 'actions/auth';
 import { startGettingUserInfo } from 'actions/user';
 import LoadingScreen from 'components/LoadingScreen';
 import React, {
@@ -21,23 +22,23 @@ import PostItem from './PostItem';
 
 const PostsScreen = () => {
    const { id } = useParams();
-   const [store, dispatch] =
-      useContext(StoreContext);
-   const [isLoading, setIsLoading] =
-      useState(true);
    const navigate = useNavigate();
+   const [isLoading, setIsLoading] = useState(true);
 
+   const [store, dispatch] = useContext(StoreContext);
    const user = store.currentUser;
    const { username, posts } = user || {};
-
-
+   
    useEffect(() => {
-      startGettingUserInfo(
-         id,
-         dispatch,
-         setIsLoading,
-         navigate
-      );
+      startGettingUserInfo(id)
+         .then(user => {
+            dispatch(setUserInfo(user));
+            setIsLoading(false);   
+         })
+         .catch(err => {
+            console.log(err);
+            navigate('/');
+         });
    }, []);
 
 

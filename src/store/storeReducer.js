@@ -5,7 +5,8 @@ const initialStore = {
    // My info -> my id in localstorage, jwt, etc
    userInfo: {
       isAuthenticated: false,
-      id: null
+      id: null,
+      token: null
    },
 
    // baseurl/:id user info -> posts, comments, etc

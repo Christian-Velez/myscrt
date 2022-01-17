@@ -1,3 +1,4 @@
+import React from 'react';
 import {
    Flex,
    Grid,
@@ -6,12 +7,12 @@ import {
    IconButton,
    Image,
    useColorMode,
-   VStack,
 } from '@chakra-ui/react';
-import React from 'react';
-import '@fontsource/berkshire-swash';
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 import { Link } from 'react-router-dom';
+
+
+import '@fontsource/berkshire-swash';
 
 const Navbar = () => {
    const { colorMode, toggleColorMode } = useColorMode();
@@ -19,7 +20,7 @@ const Navbar = () => {
    return (
       <Grid
          w={{ base: 'full', xl: '50%'}}
-         gridTemplateColumns='1fr 1fr'
+         gridTemplateColumns={{ base: '3fr 1fr'}}
          paddingY={5}
          paddingX={5}
          bgColor='whiteAlpha'

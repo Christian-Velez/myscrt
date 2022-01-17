@@ -7,10 +7,8 @@ import { Navigate } from 'react-router-dom';
 import { StoreContext } from 'store/StoreProvider';
 
 const PublicRouter = ({ children }) => {
-
    const [ state ] = useContext(StoreContext);
    const { isAuthenticated, id } = state.userInfo;
-
 
    if(isAuthenticated) {
       return <Navigate to={`/${id}`} />;
