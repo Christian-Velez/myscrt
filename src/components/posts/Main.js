@@ -19,8 +19,6 @@ const Main = () => {
       isMyFeed
       ? <ShareLink />
       : <SendComment />
-   
-         
    );
 };
 

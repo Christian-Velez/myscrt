@@ -10,6 +10,12 @@ export const startGettingUserInfo = async(id, dispatch, setIsLoading, navigate) 
       const { data } = await axios.get(`${API_URL}/api/user/${id}`);
       const { user } = data;
 
+
+      if(!user) {
+         return navigate('/');
+      }
+
+
       const newPosts = user.posts.map(post => sortComments({ ...post }));
       const userToStore = {
          ...user,
@@ -68,7 +74,8 @@ export const startDeletingPost = async(postId, token, dispatch) => {
 
       const { data } = await axios.delete(`${API_URL}/api/post/${postId}`, config);
       dispatch(setCurrentUserInfo(data.updatedUser));
-      
+
+
    } catch(err) {
       console.log(err);
    }
@@ -106,4 +113,72 @@ export const updatePost = (post) => {
          post
       }
    };
+};
+
+
+
+export const startDeletingComment = async (postId, commentId,token, dispatch) => {
+
+   try {
+
+      // Header de autorizacion
+      const config = {
+         headers: {
+            Authorization: `Bearer ${token}`,
+         },
+      };
+
+
+      const result = await axios.delete(`${API_URL}/api/post/${postId}/comment/${commentId}`, config);
+
+      if(result.status === 204) {
+         dispatch(deleteComment(postId, commentId));
+      }
+
+   }
+   catch(err) {
+      console.log(err);
+   }
+};
+
+export const deleteComment = (postId, commentId) => {
+   return {
+      type: types.deleteComment,
+      payload: {
+         postId,
+         commentId
+      }
+   };
+};
+
+
+
+
+
+export const deleteUserAccont = async (userId, token, navigate) => {
+   try {
+      // Header de autorizacion
+      const config = {
+         headers: {
+            Authorization: `Bearer ${token}`,
+         },
+      };
+
+
+      const resp = await axios.delete(`${API_URL}/api/user/${userId}`, config);
+
+      if(resp.status === 204) {
+         localStorage.removeItem('userAuth');
+         navigate('/');
+      }
+
+
+   } catch(err) {
+
+      console.log(err);
+   }
+
+
+
+
 };

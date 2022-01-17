@@ -16,38 +16,24 @@ import PostsScreen from 'components/posts/PostsScreen';
 
 
 const AppRouter = () => {
-
    const [, dispatch] = useContext(StoreContext);
-
    const [isLoading, setIsLoading] = useState(true);
-
-
 
    useEffect(() => {
       const user = JSON.parse(localStorage.getItem('userAuth'));
 
-
       if(user) {
-         // Checar si el JWT es valido, guardar el user y meterlo en el store
-
          dispatch(setUserInfo({
-         
             ...user,
             isAuthenticated: true
          }));
-
       }
-
-
 
       setIsLoading(false);
    }, []); 
 
 
-   // Hacer que si ya tiene un user lo redireccione a su dashboard
-   // Si no tiene: que lo deje crear uno nuevo
    return (
-
       isLoading
       ? <LoadingScreen />
       : <>
@@ -55,12 +41,11 @@ const AppRouter = () => {
             w='full' 
             margin={0}
             alignItems='center'
-            wordBreak='break-word'
+            wordBreak='break-word'  
          >
             <Navbar />
             <Routes>
 
-               
                <Route 
                   exact path='/' 
                   element={
@@ -69,12 +54,10 @@ const AppRouter = () => {
                      </PublicRouter>
                   } />
                
-
-
-
                <Route path='/:id' element={<PostsScreen />} />
 
                <Route path='/*' element={ <Navigate to='/' />} />
+
             </Routes>  
          </VStack>
 

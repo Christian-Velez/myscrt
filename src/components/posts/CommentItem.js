@@ -1,14 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { HStack, Text } from '@chakra-ui/react';
 import DeleteButton from './DeleteButton';
+import { startDeletingComment } from 'actions/user';
+import { StoreContext } from 'store/StoreProvider';
 
-const CommentItem = ({ comment, isMyFeed }) => {
-   const { comment: text } = comment;
+const CommentItem = ({ comment, postId, isMyFeed }) => {
+
+
+
+   const [ store , dispatch] = useContext(StoreContext); 
+   const { token } = store.userInfo; 
+
+   const { comment: text, _id } = comment;
 
 
    const handleDeleteComment = () => {
-      console.log('xd');
+      startDeletingComment(postId, _id, token , dispatch);
    };
 
    return (
@@ -18,6 +26,7 @@ const CommentItem = ({ comment, isMyFeed }) => {
          borderColor='gray.300'
          borderRadius='lg'
          padding={2}
+         paddingLeft={5}
          justifyContent='space-between'
          alignItems='flex-start'
 
@@ -34,7 +43,8 @@ const CommentItem = ({ comment, isMyFeed }) => {
 
 CommentItem.propTypes = {
    comment: PropTypes.object,
-   isMyFeed: PropTypes.bool
+   isMyFeed: PropTypes.bool,
+   postId: PropTypes.string
 };
 
 export default CommentItem;

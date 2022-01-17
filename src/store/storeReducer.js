@@ -62,7 +62,23 @@ const storeReducer = (state, action) => {
             }
          };
 
+      
+      case types.deleteComment:
 
+         return {
+            ...state,
+            currentUser: {
+               ...state.currentUser,
+               posts: state.currentUser.posts.map(post => (
+                  post.id === action.payload.postId
+                  ? ({
+                     ...post,
+                     comments: post.comments.filter(comment => comment._id !== action.payload.commentId)
+                  })
+                  : post
+               ))
+            }
+         };
 
       default: 
          return state;
