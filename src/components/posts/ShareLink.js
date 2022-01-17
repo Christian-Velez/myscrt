@@ -21,9 +21,6 @@ const ShareLink = () => {
    const [ state, dispatch ] = useContext(StoreContext);
    const { id, token } = state.userInfo;
 
-
-   console.log('IMPORTANT ->', state.userInfo);
-
    const link = window.location.href;
 
    const [text, setText] = useState(link);

@@ -1,9 +1,12 @@
 import {
+   Flex,
    Grid,
    Heading,
    HStack,
    IconButton,
+   Image,
    useColorMode,
+   VStack,
 } from '@chakra-ui/react';
 import React from 'react';
 import '@fontsource/berkshire-swash';
@@ -22,17 +25,19 @@ const Navbar = () => {
          bgColor='whiteAlpha'
          zIndex={10}
       >
-         <HStack>
+         <Flex w='full' justifyContent='flex-start'>
             <Link to='/'>
-
-               <Heading
-                  fontSize='3xl'
-                  fontFamily='Berkshire Swash'
-               >
-                  Mysecrets
-               </Heading>
+               <HStack>
+                  <Image src='/static/logo.png' w={{ base: '30px' }}/>
+                  <Heading
+                     fontSize='3xl'
+                     fontFamily='Berkshire Swash'
+                  >
+                     Mysecrets
+                  </Heading>
+               </HStack>
             </Link>
-         </HStack>
+         </Flex>
 
 
          <HStack justifyContent='flex-end'>

@@ -15,10 +15,8 @@ const fontFamily = {
 
 
 const theme = extendTheme(
-   
    {
       fonts: fontFamily,
-      
    }
 );
 
