@@ -27,6 +27,7 @@ const AppRouter = () => {
             ...user,
             isAuthenticated: true
          }));
+         console.log('Setie el user');
       }
 
       setIsLoading(false);

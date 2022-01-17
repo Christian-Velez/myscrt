@@ -155,8 +155,10 @@ export const deleteComment = (postId, commentId) => {
 
 
 
-export const deleteUserAccont = async (userId, token, navigate) => {
+export const deleteUserAccont = async ({ id: userId, token, navigate, dispatch }) => {
    try {
+      
+
       // Header de autorizacion
       const config = {
          headers: {
@@ -164,17 +166,19 @@ export const deleteUserAccont = async (userId, token, navigate) => {
          },
       };
 
-
       const resp = await axios.delete(`${API_URL}/api/user/${userId}`, config);
+
 
       if(resp.status === 204) {
          localStorage.removeItem('userAuth');
+
+         dispatch({
+            type: types.logout
+         });
+
          navigate('/');
       }
-
-
    } catch(err) {
-
       console.log(err);
    }
 

@@ -1,20 +1,26 @@
 import axios from 'axios';
 import types from 'types/types';
 
-
 const API_URL = process.env.REACT_APP_API_URL;
 
-export const startRegisterUser = async (username, dispatch, navigate) => {
+export const startRegisterUser = async ({
+   username,
+   dispatch,
+   navigate,
+   setIsLoading,
+}) => {
    try {
-      const { data } = await axios.post(`${API_URL}/api/user/new`, {
-         username
-      });
+      setIsLoading(true);
+      const { data } = await axios.post(`${API_URL}/api/user/new`, { username });
 
       const { savedUser, token } = data;
-      dispatch(setUserInfo({
-         ...savedUser,
-         token
-      }));
+
+      dispatch(
+         setUserInfo({
+            ...savedUser,
+            token,
+         })
+      );
 
       const userForLocalStorage = {
          id: savedUser.id,
@@ -22,10 +28,15 @@ export const startRegisterUser = async (username, dispatch, navigate) => {
          isAuthenticated: true,
       };
 
-      localStorage.setItem('userAuth', JSON.stringify(userForLocalStorage));
+      localStorage.setItem(
+         'userAuth',
+         JSON.stringify(userForLocalStorage)
+      );
+
+      setIsLoading(false);
       navigate(`./${savedUser.id}`);
-   }
-   catch(err) {
+
+   } catch (err) {
       return err;
    }
 };
@@ -33,6 +44,6 @@ export const startRegisterUser = async (username, dispatch, navigate) => {
 export const setUserInfo = (userInfo) => {
    return {
       type: types.setUserInfo,
-      payload: userInfo
+      payload: userInfo,
    };
 };

@@ -16,6 +16,7 @@ const initialStore = {
 };
 
 const storeReducer = (state, action) => {
+   const { currentUser } = state;
 
    switch(action.type) {
 
@@ -25,35 +26,31 @@ const storeReducer = (state, action) => {
             userInfo: action.payload
          };
 
-
       case types.setCurrentUserInfo:
          return {
             ...state,
             currentUser: action.payload
          };
 
-
       case types.addNewPost:
          return {
             ...state,
             currentUser: {
-               ...state.currentUser,
+               ...currentUser,
                posts: [
                   action.payload,
-                  ...state.currentUser.posts
+                  ...currentUser.posts
 
                ]
             }
          };
 
-
-
       case types.updatePost:
          return {
             ...state,
             currentUser: {
-               ...state.currentUser,
-               posts: state.currentUser.posts.map(post => (
+               ...currentUser,
+               posts: currentUser.posts.map(post => (
                   post.id === action.payload.id
                   ? action.payload.post
                   : post
@@ -61,15 +58,14 @@ const storeReducer = (state, action) => {
                
             }
          };
-
       
       case types.deleteComment:
 
          return {
             ...state,
             currentUser: {
-               ...state.currentUser,
-               posts: state.currentUser.posts.map(post => (
+               ...currentUser,
+               posts: currentUser.posts.map(post => (
                   post.id === action.payload.postId
                   ? ({
                      ...post,
@@ -80,6 +76,13 @@ const storeReducer = (state, action) => {
             }
          };
 
+      case types.logout: 
+         return {
+            ...state,
+            userInfo: initialStore.userInfo
+         };
+
+      
       default: 
          return state;
    }

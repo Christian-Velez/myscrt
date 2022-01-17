@@ -18,9 +18,11 @@ import { StoreContext } from 'store/StoreProvider';
 
 const ShareLink = () => {
    const navigate = useNavigate();
-   const [ state ] = useContext(StoreContext);
+   const [ state, dispatch ] = useContext(StoreContext);
    const { id, token } = state.userInfo;
 
+
+   console.log('IMPORTANT ->', state.userInfo);
 
    const link = window.location.href;
 
@@ -39,7 +41,7 @@ const ShareLink = () => {
    const handleDeleteAccount = () => {
       onClose();
 
-      deleteUserAccont(id, token, navigate);
+      deleteUserAccont({ id, token, navigate, dispatch });
    };
 
    return (

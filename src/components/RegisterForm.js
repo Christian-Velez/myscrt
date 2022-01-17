@@ -15,6 +15,7 @@ const RegisterForm = () => {
    const [, dispatch ] = useContext(StoreContext);
    const [username, setUsername] = useState('');
    const [isInvalid, setIsInvalid] = useState(false);
+   const [isLoading , setIsLoading ] = useState(false);
 
    const handleSubmit = (e) => {
       e.preventDefault();
@@ -22,7 +23,7 @@ const RegisterForm = () => {
       if(username.length === 0 ) {
          return setIsInvalid(true);
       }
-      startRegisterUser(username, dispatch, navigate);
+      startRegisterUser({username, dispatch, navigate, setIsLoading});
    };
 
 
@@ -50,6 +51,7 @@ const RegisterForm = () => {
             <Button
                colorScheme='pink'
                type='submit'
+               isLoading={isLoading}
             >
                Register
             </Button>
