@@ -5,14 +5,9 @@ const API_URL = process.env.REACT_APP_API_URL;
 
 export const startRegisterUser = async ({
    username,
-   dispatch,
-   navigate,
-   setIsLoading,
 }) => {
    try {
-      setIsLoading(true);
       const { data } = await axios.post(`${API_URL}/api/user/new`, { username });
-
       const { savedUser, token } = data;
 
       const user = {
@@ -21,15 +16,9 @@ export const startRegisterUser = async ({
          isAuthenticated: true
       };
 
-      // Guardo la cuenta en la sesion y en el localStorage
-      dispatch(setUserInfo(user));
-      localStorage.setItem('userAuth', JSON.stringify(user));
-
-
-      setIsLoading(false);
-      navigate(`./${savedUser.id}`);
+      return user;
    } catch (err) {
-      return err;
+      throw new Error(err.message);
    }
 };
 

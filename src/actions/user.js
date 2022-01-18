@@ -5,9 +5,10 @@ import types from 'types/types';
 const API_URL = process.env.REACT_APP_API_URL;
 
 
-export const startGettingUserInfo = async (id) => {
+export const startGettingCurrentUserInfo = async (id) => {
    try {
-      const { data } = await axios.get(`${API_URL}/api/user/${id}`);
+      const URL = `${API_URL}/api/user/${id}`;
+      const { data } = await axios.get(URL);
       const { user, posts } = data;
 
 
@@ -38,7 +39,8 @@ export const setCurrentUserInfo = (userInfo) => {
 export const startPostingNew = async (userId, post, dispatch) => {
    try {
 
-      const { data } = await axios.post(`${API_URL}/api/post`, {
+      const URL = `${API_URL}/api/post`;
+      const { data } = await axios.post(URL, {
          userId,
          mainComment: post
       });
@@ -68,9 +70,13 @@ export const startDeletingPost = async(postId, token, dispatch) => {
          },
       };
 
+      const URL = `${API_URL}/api/post/${postId}`;
+      const { data } = await axios.delete(URL, config);
 
-      const { data } = await axios.delete(`${API_URL}/api/post/${postId}`, config);
-      dispatch(setCurrentUserInfo(data.updatedUser));
+
+      //dispatch(setCurrentUserInfo(data.updatedUser));
+
+
 
 
    } catch(err) {
@@ -85,7 +91,8 @@ export const startCommentPost = async (postId, comment, dispatch) => {
 
    try {
 
-      const { data } = await axios.put(`${API_URL}/api/post/comment/${postId}`, { comment });
+      const URL = `${API_URL}/api/post/comment/${postId}`;
+      const { data } = await axios.put(URL, { comment });
 
 
       const { updatedPost } = data;
@@ -126,7 +133,8 @@ export const startDeletingComment = async (postId, commentId,token, dispatch) =>
       };
 
 
-      const result = await axios.delete(`${API_URL}/api/post/${postId}/comment/${commentId}`, config);
+      const URL = `${API_URL}/api/post/${postId}/comment/${commentId}`;
+      const result = await axios.delete(URL, config);
 
       if(result.status === 204) {
          dispatch(deleteComment(postId, commentId));
@@ -163,7 +171,8 @@ export const deleteUserAccont = async ({ id: userId, token, navigate, dispatch }
          },
       };
 
-      const resp = await axios.delete(`${API_URL}/api/user/${userId}`, config);
+      const URL = `${API_URL}/api/user/${userId}`;
+      const resp = await axios.delete(URL, config);
 
 
       if(resp.status === 204) {

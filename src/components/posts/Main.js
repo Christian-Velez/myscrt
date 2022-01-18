@@ -7,9 +7,12 @@ import SendComment from './SendComment';
 import ShareLink from './ShareLink';
 
 const Main = () => {
-   const [store] = useContext(StoreContext);
-   
+   const [ store ] = useContext(StoreContext);
+
+
    const { currentUser, userInfo } = store;
+
+
    const isMyFeed = currentUser.id === userInfo.id;
 
 

@@ -5,7 +5,7 @@ import {
    HStack,
    Input,
 } from '@chakra-ui/react';
-import { startRegisterUser } from 'actions/auth';
+import { setUserInfo, startRegisterUser } from 'actions/auth';
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { StoreContext } from 'store/StoreProvider';
@@ -23,7 +23,20 @@ const RegisterForm = () => {
       if(username.length === 0 ) {
          return setIsInvalid(true);
       }
-      startRegisterUser({username, dispatch, navigate, setIsLoading});
+
+      setIsLoading(true);
+
+      
+      startRegisterUser({username})
+         .then(user => {
+            
+            // Guardo la cuenta en la sesion y en el localStorage
+            dispatch(setUserInfo(user));
+            localStorage.setItem('userAuth', JSON.stringify(user));
+            
+            navigate(`./${user.id}`);
+         })
+         .catch(err => console.log(err));
    };
 
 

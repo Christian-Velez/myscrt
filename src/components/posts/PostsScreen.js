@@ -2,8 +2,7 @@ import {
    Heading,
    VStack,
 } from '@chakra-ui/react';
-import { setUserInfo } from 'actions/auth';
-import { startGettingUserInfo } from 'actions/user';
+import { setCurrentUserInfo, startGettingCurrentUserInfo } from 'actions/user';
 import LoadingScreen from 'components/LoadingScreen';
 import React, {
    useContext,
@@ -30,9 +29,9 @@ const PostsScreen = () => {
    const { username, posts } = user || {};
    
    useEffect(() => {
-      startGettingUserInfo(id)
+      startGettingCurrentUserInfo(id)
          .then(user => {
-            dispatch(setUserInfo(user));
+            dispatch(setCurrentUserInfo(user));
             setIsLoading(false);   
          })
          .catch(err => {
@@ -40,8 +39,6 @@ const PostsScreen = () => {
             navigate('/');
          });
    }, []);
-
-
 
    return isLoading ? (
       <LoadingScreen />
