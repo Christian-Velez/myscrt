@@ -4,16 +4,16 @@
 
 const types = {
 
-   registerUser: '[User] Start register new user in DB',
-   setUserInfo: '[User] Set userInfo received from backend ',
-   logout: '[User] Set userInfo to initialState',
+   registerUser: '[Auth] Start register new user in DB',
+   setAuth: '[Auth] Set userInfo received from backend ',
+   logout: '[Auth] Set userInfo to initialState',
 
-   setCurrentUserInfo: '[CurrentUser] Set current user (/:id) info',
-   addNewPost: '[CurrentUser] Add new post to stored data',
-
-   updatePost: '[CurrentUser] Edit post',
-
-   deleteComment: '[CurrentUser] Delete comment from post',
+   setCurrentUserInfo: '[userInfo] Set current user (/:id) info',
+   addNewPost: '[userInfo] Add new post to stored data',
+   updatePost: '[userInfo] Edit post',
+   deletePost: '[userInfo] DeletePost',
+   deleteComment: '[userInfo] Delete comment from post',
+   
 };
 
 

@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { HStack, Text } from '@chakra-ui/react';
 import DeleteButton from './DeleteButton';
-import { startDeletingComment } from 'actions/user';
+import { deleteComment, startDeletingComment } from 'actions/user';
 import { StoreContext } from 'store/StoreProvider';
 
 const CommentItem = ({ comment, postId, isMyFeed }) => {
@@ -10,13 +10,18 @@ const CommentItem = ({ comment, postId, isMyFeed }) => {
 
 
    const [ store , dispatch] = useContext(StoreContext); 
-   const { token } = store.userInfo; 
+   const { token } = store.auth; 
 
    const { comment: text, _id } = comment;
 
 
    const handleDeleteComment = () => {
-      startDeletingComment(postId, _id, token , dispatch);
+      startDeletingComment(postId, _id, token)
+         .then(status => {
+            if(status === 204) {
+               dispatch(deleteComment(postId, _id));
+            }
+         });
    };
 
    return (

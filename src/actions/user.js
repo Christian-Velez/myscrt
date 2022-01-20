@@ -5,6 +5,7 @@ import types from 'types/types';
 const API_URL = process.env.REACT_APP_API_URL;
 
 
+// GET
 export const startGettingCurrentUserInfo = async (id) => {
    try {
       const URL = `${API_URL}/api/user/${id}`;
@@ -35,7 +36,7 @@ export const setCurrentUserInfo = (userInfo) => {
 };
 
 
-
+// POST "POST"
 export const startPostingNew = async (userId, post, dispatch) => {
    try {
 
@@ -60,7 +61,7 @@ export const addNewPost = (data) => {
 };
 
 
-
+// DELETE
 export const startDeletingPost = async(postId, token, dispatch) => {
    try {
       // Header de autorizacion
@@ -71,23 +72,25 @@ export const startDeletingPost = async(postId, token, dispatch) => {
       };
 
       const URL = `${API_URL}/api/post/${postId}`;
-      const { data } = await axios.delete(URL, config);
+      await axios.delete(URL, config);
 
-
-      //dispatch(setCurrentUserInfo(data.updatedUser));
-
-
-
+      dispatch(deletePost(postId));
 
    } catch(err) {
       console.log(err);
    }
 };
 
+export const deletePost = (postId) => {
+   return {
+      type: types.deletePost,
+      payload: postId
+   };
+};
 
 
-
-export const startCommentPost = async (postId, comment, dispatch) => {
+// POST COMMENT
+export const startCommentPost = async (postId, comment) => {
 
    try {
 
@@ -99,15 +102,13 @@ export const startCommentPost = async (postId, comment, dispatch) => {
 
 
       const newPost = sortComments({ ...updatedPost });
-      dispatch(updatePost(newPost));
 
+      return newPost;
    } catch(err) {
 
       console.log(err);
    }
 };
-
-
 
 export const updatePost = (post) => {
    return {
@@ -121,8 +122,7 @@ export const updatePost = (post) => {
 
 
 
-export const startDeletingComment = async (postId, commentId,token, dispatch) => {
-
+export const startDeletingComment = async (postId, commentId,token) => {
    try {
 
       // Header de autorizacion
@@ -135,10 +135,7 @@ export const startDeletingComment = async (postId, commentId,token, dispatch) =>
 
       const URL = `${API_URL}/api/post/${postId}/comment/${commentId}`;
       const result = await axios.delete(URL, config);
-
-      if(result.status === 204) {
-         dispatch(deleteComment(postId, commentId));
-      }
+      return result.status;
 
    }
    catch(err) {
@@ -160,35 +157,3 @@ export const deleteComment = (postId, commentId) => {
 
 
 
-export const deleteUserAccont = async ({ id: userId, token, navigate, dispatch }) => {
-   try {
-      
-
-      // Header de autorizacion
-      const config = {
-         headers: {
-            Authorization: `Bearer ${token}`,
-         },
-      };
-
-      const URL = `${API_URL}/api/user/${userId}`;
-      const resp = await axios.delete(URL, config);
-
-
-      if(resp.status === 204) {
-         localStorage.removeItem('userAuth');
-
-         dispatch({
-            type: types.logout
-         });
-
-         navigate('/');
-      }
-   } catch(err) {
-      console.log(err);
-   }
-
-
-
-
-};

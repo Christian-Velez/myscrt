@@ -3,11 +3,14 @@ import types from 'types/types';
 
 const API_URL = process.env.REACT_APP_API_URL;
 
+
+// REGISTER
 export const startRegisterUser = async ({
    username,
 }) => {
    try {
-      const { data } = await axios.post(`${API_URL}/api/user/new`, { username });
+      const URL = `${API_URL}/api/user/new`;
+      const { data } = await axios.post( URL , { username });
       const { savedUser, token } = data;
 
       const user = {
@@ -24,7 +27,36 @@ export const startRegisterUser = async ({
 
 export const setUserInfo = (userInfo) => {
    return {
-      type: types.setUserInfo,
+      type: types.setAuth,
       payload: userInfo,
+   };
+};
+
+
+// LOGOUT 
+export const deleteUserAccont = async ({ id: userId, token}) => {
+   try {
+      // Header de autorizacion
+      const config = {
+         headers: {
+            Authorization: `Bearer ${token}`,
+         },
+      };
+
+      const URL = `${API_URL}/api/user/${userId}`;
+      const resp = await axios.delete(URL, config);
+
+      if(resp.status === 204) {
+         localStorage.removeItem('userAuth');
+      }
+   } catch(err) {
+      console.log(err);
+   }
+};
+
+
+export const logout = () => {
+   return {
+      type: types.logout
    };
 };

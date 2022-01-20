@@ -4,15 +4,15 @@ import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Flex, FormControl, Input, Text, VStack } from '@chakra-ui/react';
 import { StoreContext } from 'store/StoreProvider';
-import { startCommentPost, startDeletingPost } from 'actions/user';
+import { startCommentPost, startDeletingPost, updatePost } from 'actions/user';
 import CommentItem from './CommentItem';
 import DeleteButton from './DeleteButton';
 
 const PostItem = ({ post })=> {
    const [store, dispatch] = useContext(StoreContext);
-   const { currentUser, userInfo  } = store;
-   const { token } = userInfo;
-   const isMyFeed = currentUser.id === userInfo.id;
+   const { currentUser, auth  } = store;
+   const { token } = auth;
+   const isMyFeed = currentUser.id === auth.id;
 
    const [comment, setComment] = useState('');
    const [isCommentInvalid, setIsCommingInvalid ] = useState(false);
@@ -25,8 +25,13 @@ const PostItem = ({ post })=> {
          return setIsCommingInvalid(true);
       }
 
-      startCommentPost(post.id, comment, dispatch);
       setComment('');
+
+      startCommentPost(post.id, comment)
+         .then((newPost) => {
+            dispatch(updatePost(newPost));
+         })
+         .catch(err => console.log(err));
    };
 
 

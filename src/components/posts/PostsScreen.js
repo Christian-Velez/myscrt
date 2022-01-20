@@ -28,6 +28,7 @@ const PostsScreen = () => {
    const user = store.currentUser;
    const { username, posts } = user || {};
    
+   
    useEffect(() => {
       startGettingCurrentUserInfo(id)
          .then(user => {

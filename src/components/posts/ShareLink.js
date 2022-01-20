@@ -1,3 +1,11 @@
+
+import React, { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { StoreContext } from 'store/StoreProvider';
+
+import { deleteUserAccont, logout } from 'actions/auth';
+
+
 import {
    AlertDialog,
    AlertDialogBody,
@@ -11,15 +19,12 @@ import {
    Input,
    VStack,
 } from '@chakra-ui/react';
-import { deleteUserAccont } from 'actions/user';
-import React, { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { StoreContext } from 'store/StoreProvider';
+
 
 const ShareLink = () => {
    const navigate = useNavigate();
    const [ state, dispatch ] = useContext(StoreContext);
-   const { id, token } = state.userInfo;
+   const { id, token } = state.auth;
 
    const link = window.location.href;
 
@@ -35,10 +40,15 @@ const ShareLink = () => {
    const onClose = () => setIsOpen(false);
 
 
-   const handleDeleteAccount = () => {
+   const handleDeleteAccount = async() => {
       onClose();
 
-      deleteUserAccont({ id, token, navigate, dispatch });
+      deleteUserAccont({ id, token})
+         .then(() => {
+            dispatch(logout());
+            navigate('/');
+         })
+         .catch(err => console.log(err));
    };
 
    return (

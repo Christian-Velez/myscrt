@@ -26,17 +26,17 @@ const RegisterForm = () => {
 
       setIsLoading(true);
 
-      
+   
       startRegisterUser({username})
-         .then(user => {
-            
-            // Guardo la cuenta en la sesion y en el localStorage
+         .then((user) => {
             dispatch(setUserInfo(user));
             localStorage.setItem('userAuth', JSON.stringify(user));
-            
             navigate(`./${user.id}`);
          })
-         .catch(err => console.log(err));
+         .catch(err => {
+            console.log(err);
+            setIsLoading(false);
+         });
    };
 
 

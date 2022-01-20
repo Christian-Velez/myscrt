@@ -2,8 +2,8 @@ import types from 'types/types';
 
 
 const initialStore = {
-   // My info -> my id in localstorage, jwt, etc
-   userInfo: {
+   // Auth -> my id in localstorage, jwt, etc
+   auth: {
       isAuthenticated: false,
       id: null,
       token: null
@@ -20,12 +20,18 @@ const storeReducer = (state, action) => {
    const { currentUser } = state;
 
    switch(action.type) {
-
-      case types.setUserInfo: 
+      case types.setAuth:
          return {
             ...state,
-            userInfo: action.payload
+            auth: action.payload
          };
+
+      case types.logout: 
+         return {
+            ...state,
+            auth: initialStore.auth
+         };
+
 
       case types.setCurrentUserInfo:
          return {
@@ -59,13 +65,23 @@ const storeReducer = (state, action) => {
                
             }
          };
-      
-      case types.deleteComment:
 
+
+      case types.deletePost: 
          return {
             ...state,
             currentUser: {
                ...currentUser,
+               posts: currentUser.posts.filter(post => post.id !== action.payload)
+            }
+         };
+      
+      case types.deleteComment:
+         return {
+            ...state,
+            currentUser: {
+               ...currentUser,
+               
                posts: currentUser.posts.map(post => (
                   post.id === action.payload.postId
                   ? ({
@@ -77,12 +93,7 @@ const storeReducer = (state, action) => {
             }
          };
 
-      case types.logout: 
-         return {
-            ...state,
-            userInfo: initialStore.userInfo
-         };
-
+  
       
       default: 
          return state;

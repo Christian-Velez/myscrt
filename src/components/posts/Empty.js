@@ -9,9 +9,8 @@ const Empty = () => {
       <VStack spacing={5}>
          <Image src='/static/empty.png' alt='Empty box' boxSize='xs'/>
          <VStack spacing={0}>
-            <Heading fontSize='xl'> NO COMMENT YET.</Heading>
+            <Heading fontSize='xl'> NO COMMENTS YET.</Heading>
             <Text>Be the first to comment on this feed.</Text>
-
          </VStack>
       </VStack>
    );
